@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI图片搜索系统</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ AI 图片检索</h1>
+            <p class="subtitle">基于CLIP + Qwen-VL 的智能图片搜索</p>
+        </header>
+
+        <div class="status-bar" id="statusBar">
+            <span class="status-item">🔍 系统状态: <span id="sysStatus">检查中...</span></span>
+            <span class="status-item">📊 图片数量: <span id="imageCount">0</span></span>
+            <span class="status-item">🧠 Qwen: <span id="qwenStatus">未启用</span></span>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="输入你想找的图片内容，如：二次元美少女" />
+                <button id="searchBtn">🔍 搜索</button>
+            </div>
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="useQwen" checked />
+                    使用Qwen-VL精排（提高准确性）
+                </label>
+                <label>
+                    Top-K:
+                    <select id="topKSelect">
+                        <option value="5">5</option>
+                        <option value="7" selected>7</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div id="loading" class="loading" style="display:none;">
+                <div class="spinner"></div>
+                <p>正在检索图片...</p>
+            </div>
+
+            <div id="resultStats" class="result-stats" style="display:none;"></div>
+
+            <div class="result-groups">
+                <div class="result-group">
+                    <h2>✅ 紧密相关 <span class="count" id="relevantCount">0</span></h2>
+                    <div class="image-grid" id="relevantGrid"></div>
+                </div>
+
+                <div class="result-group">
+                    <h2>🔶 部分相关 <span class="count" id="partialCount">0</span></h2>
+                    <div class="image-grid" id="partialGrid"></div>
+                </div>
+
+                <div class="result-group">
+                    <h2>❌ 不相关 <span class="count" id="irrelevantCount">0</span></h2>
+                    <div class="image-grid" id="irrelevantGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide">
+            <h3>📖 使用说明</h3>
+            <ol>
+                <li>将图片放入 <code>data/images/</code> 目录</li>
+                <li>运行 <code>python encoder.py</code> 生成向量索引</li>
+                <li>启动服务：<code>python run.py</code></li>
+                <li>在浏览器中打开 <code>http://localhost:5000</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
